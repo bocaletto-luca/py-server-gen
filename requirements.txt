@@ -1,0 +1,5 @@
+# requirements.txt
+psutil
+PyYAML
+APScheduler
+pywin32  # solo se serve il supporto Service su Windows
