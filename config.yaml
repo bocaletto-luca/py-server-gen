@@ -1,6 +1,5 @@
 # config.yaml
-schedule: "@every 30m"
-
+schedule: "@every 30m"     # or cron “M H D M W”, e.g. “0 8 * * *”
 smtp:
   host: "smtp.example.com"
   port: 587
@@ -10,7 +9,6 @@ smtp:
   recipients:
     - "admin1@example.com"
     - "admin2@example.com"
-
 log:
   path: "server.log"
   level: "INFO"
