@@ -5,9 +5,10 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /opt/server/main.py
+ExecStart=/usr/bin/python3 /opt/server/app.py
 Restart=always
 RestartSec=5
+WorkingDirectory=/opt/server
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=py-server-report
