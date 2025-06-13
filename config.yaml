@@ -1,0 +1,16 @@
+# config.yaml
+schedule: "@every 30m"
+
+smtp:
+  host: "smtp.example.com"
+  port: 587
+  username: "alert@example.com"
+  password: "supersecret"
+  sender:   "alert@example.com"
+  recipients:
+    - "admin1@example.com"
+    - "admin2@example.com"
+
+log:
+  path: "server.log"
+  level: "INFO"
