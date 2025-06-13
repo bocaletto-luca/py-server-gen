@@ -1,0 +1,16 @@
+; linux_server.service
+[Unit]
+Description=Python Server Report Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/server/main.py
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=py-server-report
+
+[Install]
+WantedBy=multi-user.target
