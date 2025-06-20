@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Persistent Server Reporter – Bocaletto Luca</title>
+  <meta name="description" content="Python Persistent Server Reporter collects system metrics and sends periodic SMTP reports. Runs as Windows Service or systemd daemon with auto-restart.">
+  <meta name="keywords" content="python,server reporter,metrics,SMTP,systemd,windows service,monitoring,daemon,persistent">
+  <meta name="author" content="Bocaletto Luca">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://github.com/bocaletto-luca/py-server-gen">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Python Persistent Server Reporter – Bocaletto Luca">
+  <meta property="og:description" content="Cross-platform app that gathers system metrics and emails reports. Runs as a Windows Service or systemd daemon with auto-restart.">
+  <meta property="og:url" content="https://github.com/bocaletto-luca/py-server-gen">
+  <meta property="og:site_name" content="Python Persistent Server Reporter">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python Persistent Server Reporter – Bocaletto Luca">
+  <meta name="twitter:description" content="Collects system metrics and sends scheduled SMTP reports. Supports Windows Service & systemd daemon.">
+
+  <!-- GitHub Markdown Styling -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css"
+        integrity="sha512-1tV2HpYPXDWZ2U8dGBwS3OWg0doP+2hT0f5Sm5aUnRpxYgiK7g+K1/L0N0o+7vL8VtPrTzZgr9wKbI6mJRwrDw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body, h1, h2, h3, p, ul, ol, pre {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      background: #f6f8fa;
+      color: #24292e;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 { font-size: 2rem; margin-bottom: .5rem; }
+    h2 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: .5rem; }
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+    code {
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      background: #f0f0f0;
+      padding: .2rem .4rem;
+      border-radius: 4px;
+    }
+    ul, ol { margin-left: 1.2rem; margin-top: .5rem; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e1e4e8;
+      text-align: center;
+      font-size: .9rem;
+      color: #57606a;
+    }
+    footer a { margin: 0 .5rem; color: inherit; }
+  </style>
+</head>
+
+<body class="markdown-body">
+  <div class="container">
+    <h1>Python Persistent Server Reporter</h1>
+    <p><em>Cross-platform app that gathers system metrics (IP, MAC, hostname, CPU, memory, disk, users) and emails reports on a configurable schedule. Runs in background as a Windows Service or systemd daemon with auto-restart and auto-start at boot.</em></p>
+
+    <p><strong>Author:</strong> Bocaletto Luca</p>
+    <p><strong>License:</strong> GPL &nbsp;|&nbsp; <a href="LICENSE">View LICENSE</a></p>
+
+    <h2>📋 Prerequisites</h2>
+    <ul>
+      <li>Python 3.7 or newer</li>
+      <li>pip or venv</li>
+      <li>Windows: administrator privileges to install service</li>
+      <li>Linux: systemd &amp; sudo permissions</li>
+    </ul>
+
+    <h2>📥 Installation</h2>
+    <pre><code># clone and install dependencies
+git clone https://github.com/bocaletto-luca/py-server-gen.git
+cd py-server-gen
+pip install -r requirements.txt
+</code></pre>
+
+    <h2>⚙️ Configuration</h2>
+    <pre><code class="language-yaml"># edit config.yaml to fit your needs
+schedule: "@every 30m"      # or cron "0 8 * * *"
+smtp:
+  host:        "smtp.example.com"
+  port:        587
+  username:    "alert@example.com"
+  password:    "supersecret"
+  sender:      "alert@example.com"
+  recipients:
+    - "admin1@example.com"
+    - "admin2@example.com"
+log:
+  path:        "server.log"
+  level:       "INFO"
+</code></pre>
+
+    <h2>▶️ Manual Run</h2>
+    <pre><code># run in foreground, CTRL+C to stop
+python main.py
+</code></pre>
+
+    <h2>⚙️ Install as Service</h2>
+    <h3>Windows</h3>
+    <ol>
+      <li>Install service:
+        <pre><code class="language-powershell">python windows_service.py install</code></pre>
+      </li>
+      <li>Configure recovery:
+        <pre><code class="language-powershell">sc.exe failure PyServerReport reset=0 actions=restart/5000</code></pre>
+      </li>
+      <li>Start service:
+        <pre><code class="language-powershell">python windows_service.py start</code></pre>
+      </li>
+      <li>Stop &amp; remove:
+        <pre><code class="language-powershell">python windows_service.py stop
+python windows_service.py remove</code></pre>
+      </li>
+    </ol>
+
+    <h3>Linux (systemd)</h3>
+    <ol>
+      <li>Copy files:
+        <pre><code class="language-bash">sudo mkdir -p /opt/server-report
+sudo cp main.py config.yaml /opt/server-report/
+sudo cp linux_server.service /etc/systemd/system/python-server-report.service
+</code></pre>
+      </li>
+      <li>Enable &amp; start:
+        <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable python-server-report
+sudo systemctl start python-server-report
+</code></pre>
+      </li>
+      <li>Check status &amp; logs:
+        <pre><code class="language-bash">sudo systemctl status python-server-report
+journalctl -u python-server-report -f
+</code></pre>
+      </li>
+    </ol>
+
+    <h2>📦 Packaging</h2>
+    <h3>PyInstaller (Windows)</h3>
+    <pre><code class="language-bash">pip install pyinstaller
+pyinstaller --onefile app.py service.py
+# then:
+dist/service.exe install
+</code></pre>
+
+    <h3>Docker</h3>
+    <pre><code class="language-bash">docker build -t py-server-reporter .
+docker run -d \
+  -v $(pwd)/config.yaml:/app/config.yaml:ro \
+  --name py-server-report \
+  py-server-reporter
+</code></pre>
+
+    <h2>🐞 Troubleshooting</h2>
+    <ul>
+      <li><strong>Email failures:</strong> check SMTP credentials and firewall rules</li>
+      <li><strong>Service won't start:</strong> verify Python path in <code>service.py</code></li>
+      <li><strong>systemd issues:</strong> use <code>journalctl -xe</code> for logs</li>
+    </ul>
+
+    <h2>🤝 Contributing</h2>
+    <ol>
+      <li>Fork the repository</li>
+      <li>Create a branch: <code>git checkout -b feat/my-feature</code></li>
+      <li>Commit your changes: <code>git commit -m "feat: add X"</code></li>
+      <li>Push: <code>git push origin feat/my-feature</code></li>
+      <li>Open a Pull Request</li>
+    </ol>
+
+    <h2>📄 License</h2>
+    <p>This project is licensed under the <strong>GPL License</strong>. See <a href="LICENSE">LICENSE</a> for details.</p>
+
+    <footer>
+      <p>© 2025 Bocaletto Luca</p>
+      <p>
+        <a href="https://bocaletto-luca.github.io">bocaletto-luca.github.io</a> |
+        <a href="https://bocalettoluca.altervista.org">bocalettoluca.altervista.org</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
