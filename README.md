@@ -1,6 +1,8 @@
 # Python Persistent Server Reporter
 #### Author: Bocaletto Luca
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge&logo=gnu)](LICENSE) [![Language: Python](https://img.shields.io/badge/Language-Python-blue?style=for-the-badge&logo=python)](https://www.python.org/) [![Linux-Compatible](https://img.shields.io/badge/Linux-Compatible-blue?style=for-the-badge&logo=linux)](https://www.kernel.org/) [![Status: Complete](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)](https://github.com/bocaletto-luca/Directory-Monitor)
+
 **Python Persistent Server Reporter** è un’applicazione cross-platform che:
 
 1. Raccoglie metriche di sistema (IP, MAC, hostname, OS, CPU, memoria, disco, utenti)  
